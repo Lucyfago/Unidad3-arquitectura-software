@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NavOptim — Navegación de rutas para reparto urbano</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">
+      <div>
+        <h1>NavOptim</h1>
+        <p>Estrategias de navegación para reparto urbano · Prototipo de arquitectura</p>
+      </div>
+    </div>
+    <button class="theme-toggle" id="themeToggle" type="button">Modo oscuro</button>
+  </header>
+
+  <div class="layout">
+    <!-- SIDEBAR -->
+    <div class="stack">
+      <div class="card">
+        <h2>1 · Estrategia de ruteo (Strategy)</h2>
+        <div class="strategy-list" id="strategyList"></div>
+
+        <h2>2 · Modo de entrega</h2>
+        <div class="mode-toggle">
+          <button id="modeSimple" class="active" type="button">Ruta simple</button>
+          <button id="modeComposite" type="button">Multi-parada</button>
+        </div>
+
+        <div class="field">
+          <label>Origen (Centro de Distribución)</label>
+          <div class="value">📦 Centro de Distribución</div>
+        </div>
+
+        <div id="simpleField" class="field">
+          <label>Destino</label>
+          <div class="value" id="destValue">Haz clic en una tienda del mapa</div>
+        </div>
+
+        <div id="compositeField" class="field" style="display:none;">
+          <label>Paradas seleccionadas (en orden de clic)</label>
+          <div class="stops-list" id="stopsList"></div>
+          <p class="hint">Haz clic en 2 a 4 tiendas del mapa, en el orden en que quieres visitarlas.</p>
+        </div>
+
+        <button class="primary" id="calcBtn" type="button" disabled>Calcular ruta</button>
+        <button class="ghost" id="resetBtn" type="button">Reiniciar selección</button>
+      </div>
+
+      <div class="card">
+        <h2>3 · Eventos en tiempo real</h2>
+        <button class="danger" id="trafficBtn" type="button" disabled>⚠ Simular incidente de tráfico</button>
+        <button class="ghost" id="undoBtn" type="button" disabled>↺ Deshacer última acción</button>
+        <p class="hint">El incidente de tráfico satura un tramo de la ruta activa. <b>TrafficMonitor</b> notifica a los observadores y la ruta se recalcula automáticamente.</p>
+      </div>
+    </div>
+
+    <!-- MAP -->
+    <div class="stack">
+      <div class="card map-wrap">
+        <h2>Mapa vial de la zona de reparto</h2>
+        <svg id="map" viewBox="0 0 890 560" xmlns="http://www.w3.org/2000/svg"></svg>
+        <div class="legend">
+          <span><i style="background:var(--avenida); height:4px;"></i> Avenida (más rápida)</span>
+          <span><i style="background:var(--grid-line);"></i> Calle</span>
+          <span><i class="dot" style="background:var(--traffic);"></i> Tramo congestionado</span>
+          <span><i class="dot" style="background:var(--warehouse);"></i> Centro de distribución</span>
+          <span><i class="dot" style="background:#7d8ba0;"></i> Tienda / parada</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- METRICS -->
+    <div class="stack">
+      <div class="card">
+        <h2>Comparación de estrategias</h2>
+        <table class="metrics" id="metricsTable">
+          <thead><tr><th>Estrategia</th><th>Costo</th><th>Nodos</th><th>Tiempo</th></tr></thead>
+          <tbody><tr><td colspan="4" style="color:var(--text-dim); font-style:italic;">Calcula una ruta para comparar</td></tr></tbody>
+        </table>
+        <div id="compositeBreakdown"></div>
+      </div>
+      <div class="card">
+        <h2>Registro de eventos (Command / Observer)</h2>
+        <div class="log" id="logPanel"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="credits">Prototipo académico — Unidad 3, Arquitectura de Software · Patrones: Strategy, Observer, Command, Composite</footer>
+</div>
+
+<script src="js/graph.js"></script>
+<script src="js/strategies.js"></script>
+<script src="js/composite.js"></script>
+<script src="js/traffic-monitor.js"></script>
+<script src="js/command.js"></script>
+<script src="js/state.js"></script>
+<script src="js/map-render.js"></script>
+<script src="js/ui.js"></script>
+</body>
+</html>

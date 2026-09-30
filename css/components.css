@@ -1,0 +1,97 @@
+/* NavOptim — tarjetas, controles, mapa, tablas y registro de eventos */
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+}
+.card h2 {
+  font-size: 12px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--text-dim);
+  margin: 0 0 12px;
+  font-weight: 600;
+}
+.stack { display: flex; flex-direction: column; gap: 16px; }
+
+/* 1 · Estrategia de ruteo (Strategy) */
+.strategy-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.strategy-opt {
+  display: flex; align-items: flex-start; gap: 10px;
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 11px; cursor: pointer; background: var(--panel-2);
+  transition: border-color .15s ease;
+}
+.strategy-opt input { margin-top: 3px; accent-color: var(--dijkstra); }
+.strategy-opt .dot { width: 9px; height: 9px; border-radius: 50%; margin-top: 5px; flex: none; }
+.strategy-opt .txt strong { display: block; font-size: 13.5px; }
+.strategy-opt .txt span { display: block; font-size: 12px; color: var(--text-dim); line-height: 1.4; margin-top: 1px; }
+.strategy-opt.active { border-color: currentColor; }
+
+/* 2 · Modo de entrega */
+.mode-toggle { display: flex; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+.mode-toggle button {
+  flex: 1; border: none; background: var(--panel-2); color: var(--text-dim);
+  font-family: inherit; font-size: 12.5px; padding: 9px 6px; cursor: pointer;
+}
+.mode-toggle button.active { background: var(--dijkstra); color: white; }
+.field { margin-bottom: 12px; }
+.field label { display: block; font-size: 11.5px; color: var(--text-dim); margin-bottom: 5px; }
+.field .value {
+  border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px;
+  font-size: 13px; background: var(--panel-2);
+}
+.stops-list { display: flex; flex-direction: column; gap: 6px; min-height: 20px; }
+.stop-chip {
+  display: flex; align-items: center; justify-content: space-between;
+  border: 1px solid var(--border); background: var(--panel-2); border-radius: 8px;
+  padding: 6px 9px; font-size: 12.5px;
+}
+.stop-chip .badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; border-radius: 50%; background: var(--nn); color: #fff;
+  font-size: 11px; font-weight: 700; margin-right: 8px;
+}
+.hint { font-size: 12px; color: var(--text-dim); margin: 6px 0 0; line-height: 1.4; }
+button.primary, button.ghost, button.danger {
+  width: 100%; border-radius: 10px; padding: 10px 12px; font-family: inherit;
+  font-size: 13.5px; font-weight: 600; cursor: pointer; margin-top: 8px; border: 1px solid transparent;
+}
+button.primary { background: var(--dijkstra); color: #fff; }
+button.primary:disabled { opacity: .45; cursor: not-allowed; }
+button.ghost { background: transparent; border-color: var(--border); color: var(--text); }
+button.danger { background: transparent; border-color: var(--traffic); color: var(--traffic); }
+button:active:not(:disabled) { transform: translateY(1px); }
+
+/* Mapa vial */
+.map-wrap { position: relative; }
+svg#map { width: 100%; height: auto; display: block; border-radius: 14px; }
+.node-tip { fill: var(--text); font-family: 'Space Grotesk', sans-serif; }
+.legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; color: var(--text-dim); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 12px; height: 3px; border-radius: 2px; display: inline-block; }
+.legend i.dot { width: 9px; height: 9px; border-radius: 50%; }
+
+/* Comparacion de estrategias */
+table.metrics { width: 100%; border-collapse: collapse; font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+table.metrics th, table.metrics td { text-align: left; padding: 7px 6px; border-bottom: 1px solid var(--border); }
+table.metrics th { color: var(--text-dim); font-weight: 500; font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em; }
+table.metrics tr.best td:first-child { position: relative; padding-left: 14px; }
+table.metrics tr.best td:first-child::before { content: "✓"; position: absolute; left: 0; color: var(--astar); }
+.composite-table { margin-top: 10px; }
+
+/* Registro de eventos (Command / Observer) */
+.log {
+  max-height: 230px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 11.5px;
+}
+.log::-webkit-scrollbar { width: 6px; }
+.log::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.log-entry { border-left: 2px solid var(--border); padding: 4px 0 4px 9px; color: var(--text-dim); line-height: 1.5; }
+.log-entry.route { border-color: var(--dijkstra); }
+.log-entry.traffic { border-color: var(--traffic); }
+.log-entry.undo { border-color: var(--nn); }
+.log-entry b { color: var(--text); font-weight: 600; }
+.log-entry .ts { color: var(--text-dim); opacity: .7; margin-right: 4px; }
